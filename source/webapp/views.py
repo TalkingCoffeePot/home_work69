@@ -4,7 +4,5 @@ from django.middleware.csrf import get_token
 
 def index(request):
     template_name = 'index.html'
-    csrf_token = get_token(request)
-    context = {'csrf_token': csrf_token}
-    return render(request, template_name, context)
+    return render(request, template_name)
     

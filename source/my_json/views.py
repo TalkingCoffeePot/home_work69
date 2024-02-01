@@ -23,10 +23,10 @@ def sign_choice(path, a, b):
 class MathView(View):
     def post(self, request, *args, **kwargs):
         answer = {}
-        
+        print(request.body)
         if request.body:
             data = json.loads(request.body)
-            print(request.body)
+            
             try:
                 answer['answer'] = sign_choice(request.path, data['A'], data['B'])
             except:

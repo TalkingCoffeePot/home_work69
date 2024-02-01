@@ -8,35 +8,39 @@
 </head>
 <body>
     <div class="container">
-        <div class="my_forms">
-            <input id='a' type="number" placeholder="first number">
-            <input id='b' type="number" placeholder="second number">
-        </div>
-        <div class="my_funcs">
-            <a id="func" href="{% url 'add' %}">Сумма</a>
-            <a id="func" href="{% url 'substract' %}">Вычитание</a>
-            <a id="func" href="{% url 'multiply' %}">Умножение</a>
-            <a id="func" href="{% url 'divide' %}">Деление</a>
-        </div>
+        <form action="">
+            <div class="my_forms">
+                <input id='a' type="number" placeholder="first number">
+                <input id='b' type="number" placeholder="second number">
+            </div>
+            <div class="my_funcs">
+                <a type="submit" id="func" href="{% url 'add' %}">Сумма</a>
+                <a type="submit" id="func" href="{% url 'substract' %}">Вычитание</a>
+                <a type="submit" id="func" href="{% url 'multiply' %}">Умножение</a>
+                <a type="submit" id="func" href="{% url 'divide' %}">Деление</a>
+            </div>
+        </form>
+        
     </div>
 
     <script type="text/javascript">
         $(document).on('click', '#func', function(e) {
             console.log($(this).attr('href'));
         
-            var data = {
-                    A: $('#a').val(),
-                    B: $('#b').val(),
-                    csrfmiddlewaretoken: "{{ csrf_token }}",
-                    action: 'post'
+            var myData = {
+                    A: $("#a").val(),
+                    B: $("#b").val(),
+                
                 }
 
-            console.log($('#a').val())
             e.preventDefault();
+            console.log(myData)
             $.ajax({
+                headers: {"X-CSRFToken": '{{csrf_token}}'},
                 type: 'POST',
                 url: $(this).attr('href'),
-                data: data,
+                contentType: 'application/json',
+                data: JSON.stringify(myData),
                 success: function(json) {
                     console.log(json)
 
