@@ -8,6 +8,8 @@
 </head>
 <body>
     <div class="container">
+        <div class='answer' hidden>Answer: </div>
+        <div class='error' hidden>Something went wrong</div>
         <form action="">
             <div class="my_forms">
                 <input id='a' type="number" placeholder="first number">
@@ -20,7 +22,31 @@
                 <a type="submit" id="func" href="{% url 'divide' %}">Деление</a>
             </div>
         </form>
-        
+        <style>
+            .error {
+                background-color: red;
+                color: white;
+                padding: 10px;
+                width: 100px;
+            }
+            .answer {
+                background-color: green;
+                color: white;
+                padding: 10px;
+                width: 100px;
+            }
+            .my_funcs {
+                margin-top: 20px;
+            }
+            #func {
+                border: 1px solid black;
+                border-radius: 5px;
+                padding: 10px;
+                text-decoration: none;
+                color: white;
+                background-color: coral;
+            }
+        </style>
     </div>
 
     <script type="text/javascript">
@@ -42,8 +68,12 @@
                 contentType: 'application/json',
                 data: JSON.stringify(myData),
                 success: function(json) {
-                    console.log(json)
-
+                    if (json['error']) {
+                        $('.error').removeAttr('hidden')
+                    } else {
+                        $('.answer').removeAttr('hidden')
+                        $('.answer').html('Answer: ' + json['answer'])
+                    }
                 }
             });
         })
