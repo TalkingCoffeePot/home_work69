@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="my_forms">
+            <input id='a' type="number" placeholder="first number">
+            <input id='b' type="number" placeholder="second number">
+        </div>
+        <div class="my_funcs">
+            <a id="func" href="{% url 'add' %}">Сумма</a>
+            <a id="func" href="{% url 'substract' %}">Вычитание</a>
+            <a id="func" href="{% url 'multiply' %}">Умножение</a>
+            <a id="func" href="{% url 'divide' %}">Деление</a>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).on('click', '#func', function(e) {
+            console.log($(this).attr('href'));
+        
+            var data = {
+                    A: $('#a').val(),
+                    B: $('#b').val(),
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    action: 'post'
+                }
+
+            console.log($('#a').val())
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('href'),
+                data: data,
+                success: function(json) {
+                    console.log(json)
+
+                }
+            });
+        })
+    </script>
+</body>
+</html>
